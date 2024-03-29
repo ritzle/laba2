@@ -1,10 +1,15 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream> //для разделение строки
+#include <cctype>  //перевод ригистров
+#include <map>
+#include <set>
 
 using namespace std;
 
 void task1();
+void task2();
 
 int main()
 {
@@ -23,6 +28,7 @@ int main()
         break;
 
     case '2':
+        task2();
         break;
 
     case '3':
@@ -77,5 +83,65 @@ void task1()
     for (auto i : realStr)
     {
         cout << i;
+    }
+}
+
+void task2()
+{
+
+    map<char, string> morseCode = {
+        {'A', "*-"}, {'B', "-***"}, {'W', "*--"}, {'G', "--*"}, {'D', "-**"}, {'E', "*"}, {'V', "***-"}, {'Z', "--**"}, {'I', "**"}, {'J', "*---"}, {'K', "-*-"}, {'L', "*-**"}, {'M', "--"}, {'N', "-*"}, {'O', "---"}, {'P', "*--*"}, {'R', "*-*"}, {'S', "***"}, {'T', "-"}, {'U', "**-"}, {'F', "**-*"}, {'H', "****"}, {'C', "-*-*"}, {'Q', "--*-"}, {'Y', "-*--"}, {'X', "-**-"}};
+
+    string entStr;
+    cout << "Enter string: ";
+    getline(cin, entStr);
+
+    if (1 > entStr.length() || entStr.length() > 100)
+    {
+        cout << "Error";
+        return;
+    }
+
+    istringstream iss(entStr); // позволяет работать с строкой как с потоком ввода
+    vector<string> splitWordEntStr;
+
+    string word; // слово из строки entStr
+
+    while (iss >> word)
+    {
+        if (1 <= word.size() && word.size() <= 12)
+        {
+            splitWordEntStr.push_back(word);
+        }
+        else
+        {
+            continue;
+        }
+        // word.length() <= 11 ? splitWordEntStr.push_back(word) : continue;???
+    }
+
+    if (splitWordEntStr.size() == 0)
+    {
+        cout << "Error";
+        return;
+    }
+
+    set<string> setWordMorse;
+    string wordMorse;
+
+    for (auto x : splitWordEntStr)
+    {
+        for (int i = 0; i < x.length(); i++)
+        {
+            wordMorse += morseCode[toupper(x[i])];
+        }
+        setWordMorse.insert(wordMorse);
+        wordMorse = "";
+    }
+
+    cout << "Resul: " << setWordMorse.size() << " = ";
+    for (auto i : setWordMorse)
+    {
+        cout << i << " ";
     }
 }
