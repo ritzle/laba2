@@ -4,16 +4,43 @@
 
 using namespace std;
 
+void task1();
+
 int main()
 {
     setlocale(LC_ALL, "RUS");
     system("chcp 1251");
 
+    char task;
+    cout << "Enter task: ";
+    cin >> task;
+    cin.ignore(); // иначе в буфере остается символ \n
+
+    switch (task)
+    {
+    case '1':
+        task1();
+        break;
+
+    case '2':
+        break;
+
+    case '3':
+        break;
+
+    default:
+        cout << "Error";
+    }
+
+    return 0;
+}
+
+void task1()
+{
+
     string entStr;
     cout << "Enter string: ";
     getline(cin, entStr);
-
-    cout << entStr << endl;
 
     vector<char> realStr;
 
@@ -51,6 +78,4 @@ int main()
     {
         cout << i;
     }
-
-    return 0;
 }
