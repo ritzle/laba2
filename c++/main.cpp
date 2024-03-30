@@ -13,7 +13,7 @@ void task2();
 void task3();
 
 int counterOddNumbers(int number);
-
+string morseTranslation(string word, map<char, string> &morseCode);
 int main()
 {
     setlocale(LC_ALL, "RUS");
@@ -24,7 +24,7 @@ int main()
     cin >> task;
     cin.ignore(); // иначе в буфере остается символ \n
 
-    switch (task)
+    switch (task) // для выбора задания
     {
     case '1':
         task1();
@@ -59,6 +59,7 @@ void task1()
     int counterSymbolStr = 1; // счетчик повторяющихся букв
     int counterAddSymbol = 0;
 
+    // посимвольно идем по строке, и проверяем совпадает ли символ с предыдущим
     for (int i = 1; i < entStr.length(); i++)
     {
         if (entStr[i] == entStr[i - 1])
@@ -83,6 +84,7 @@ void task1()
         }
     }
 
+    // собираем строку из vectora
     cout << "Resul: " << counterAddSymbol << " = ";
     for (auto i : realStr)
     {
@@ -93,61 +95,84 @@ void task1()
 void task2()
 {
 
-    map<char, string> morseCode = {
-        {'A', "*-"}, {'B', "-***"}, {'W', "*--"}, {'G', "--*"}, {'D', "-**"}, {'E', "*"}, {'V', "***-"}, {'Z', "--**"}, {'I', "**"}, {'J', "*---"}, {'K', "-*-"}, {'L', "*-**"}, {'M', "--"}, {'N', "-*"}, {'O', "---"}, {'P', "*--*"}, {'R', "*-*"}, {'S', "***"}, {'T', "-"}, {'U', "**-"}, {'F', "**-*"}, {'H', "****"}, {'C', "-*-*"}, {'Q', "--*-"}, {'Y', "-*--"}, {'X', "-**-"}};
+    map<char, string> morseCode = {// шифр морзе
+                                   {'A', "*-"},
+                                   {'B', "-***"},
+                                   {'W', "*--"},
+                                   {'G', "--*"},
+                                   {'D', "-**"},
+                                   {'E', "*"},
+                                   {'V', "***-"},
+                                   {'Z', "--**"},
+                                   {'I', "**"},
+                                   {'J', "*---"},
+                                   {'K', "-*-"},
+                                   {'L', "*-**"},
+                                   {'M', "--"},
+                                   {'N', "-*"},
+                                   {'O', "---"},
+                                   {'P', "*--*"},
+                                   {'R', "*-*"},
+                                   {'S', "***"},
+                                   {'T', "-"},
+                                   {'U', "**-"},
+                                   {'F', "**-*"},
+                                   {'H', "****"},
+                                   {'C', "-*-*"},
+                                   {'Q', "--*-"},
+                                   {'Y', "-*--"},
+                                   {'X', "-**-"}};
 
     string entStr;
     cout << "Enter string: ";
     getline(cin, entStr);
 
-    if (1 > entStr.length() || entStr.length() > 100)
+    if (1 > entStr.length() || entStr.length() > 100) // проверка на ограничение
     {
         cout << "Error";
         return;
     }
 
     istringstream iss(entStr); // позволяет работать с строкой как с потоком ввода
-    vector<string> splitWordEntStr;
 
-    string word; // слово из строки entStr
-
-    while (iss >> word)
-    {
-        if (1 <= word.size() && word.size() <= 12)
-        {
-            splitWordEntStr.push_back(word);
-        }
-        else
-        {
-            continue;
-        }
-        // word.length() <= 11 ? splitWordEntStr.push_back(word) : continue;???
-    }
-
-    if (splitWordEntStr.size() == 0)
+    if (!iss) // проверка ограничений
     {
         cout << "Error";
         return;
     }
 
-    set<string> setWordMorse;
-    string wordMorse;
+    set<string> setWordMorse; // множество уникальных слов в морзе
+    string word;              // слово из строки entStr
 
-    for (auto x : splitWordEntStr)
+    while (iss >> word)
     {
-        for (int i = 0; i < x.length(); i++)
+        if (1 <= word.size() && word.size() <= 12)
         {
-            wordMorse += morseCode[toupper(x[i])];
+            string morseResult = morseTranslation(word, morseCode);
+            setWordMorse.insert(morseResult);
+            // setWordMorse.insert(morseTranslation(word, morseCode));
         }
-        setWordMorse.insert(wordMorse);
-        wordMorse = "";
     }
 
+    // вывод
     cout << "Resul: " << setWordMorse.size() << " = ";
     for (auto i : setWordMorse)
     {
         cout << i << " ";
     }
+}
+
+string morseTranslation(string word, map<char, string> &morseCode)
+{
+
+    string wordMorse;
+
+    for (int i = 0; i < word.length(); i++)
+    {
+        wordMorse += morseCode[toupper(word[i])];
+    }
+
+    return wordMorse;
 }
 
 void task3()
@@ -159,7 +184,7 @@ void task3()
 
     istringstream iss(strNumbers); // позволяет работать с строкой как с потоком ввода
 
-    int number; // слово из строки entStr
+    int number; // число из строки entStr
 
     cout << "Resul: ";
     while (iss >> number)
