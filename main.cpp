@@ -10,6 +10,9 @@ using namespace std;
 
 void task1();
 void task2();
+void task3();
+
+int counterOddNumbers(int number);
 
 int main()
 {
@@ -32,6 +35,7 @@ int main()
         break;
 
     case '3':
+        task3();
         break;
 
     default:
@@ -144,4 +148,41 @@ void task2()
     {
         cout << i << " ";
     }
+}
+
+void task3()
+{
+
+    cout << "Enter numbers: ";
+    string strNumbers;
+    getline(cin, strNumbers);
+
+    istringstream iss(strNumbers); // позволяет работать с строкой как с потоком ввода
+
+    int number; // слово из строки entStr
+
+    cout << "Resul: ";
+    while (iss >> number)
+    {
+        cout << counterOddNumbers(number) << " ";
+    }
+}
+
+int counterOddNumbers(int number)
+{
+
+    int counterOddNumbers = 0;
+
+    while (number)
+    {
+
+        if ((number % 10) % 2 != 0)
+        {
+            counterOddNumbers++;
+        }
+
+        number /= 10;
+    }
+
+    return counterOddNumbers;
 }
