@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <sstream> //для разделение строки
-#include <cctype>  //перевод ригистров
+#include <cctype>  //перевод регистров
 #include <map>
 #include <set>
 
@@ -20,7 +20,7 @@ int main()
     system("chcp 1251");
 
     char task;
-    cout << "Enter task: ";
+    cout << "Enter task (1, 2, 3): ";
     cin >> task;
     cin.ignore(); // иначе в буфере остается символ \n
 
@@ -57,7 +57,7 @@ void task1()
     realStr.push_back(entStr[0]); // первая буква строки
 
     int counterSymbolStr = 1; // счетчик повторяющихся букв
-    int counterAddSymbol = 0;
+    int counterAddSymbol = 0; // счетчик добавленных букв
 
     // посимвольно идем по строке, и проверяем совпадает ли символ с предыдущим
     for (int i = 1; i < entStr.length(); i++)
