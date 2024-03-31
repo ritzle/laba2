@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream> //для разделение строки
 #include <cctype>  //перевод регистров
+#include <algorithm>
 #include <map>
 #include <set>
 
@@ -14,6 +15,8 @@ void task3();
 
 int counterOddNumbers(int number);
 string morseTranslation(string word, map<char, string> &morseCode);
+void WordMorseCombinations(string word, map<string, int> &mapWordMorse, map<char, string> &morseCode);
+
 int main()
 {
     setlocale(LC_ALL, "RUS");
@@ -141,25 +144,46 @@ void task2()
         return;
     }
 
-    set<string> setWordMorse; // множество уникальных слов в морзе
-    string word;              // слово из строки entStr
+    string word; // слово из строки entStr
+
+    map<string, int> mapWordMorse;
 
     while (iss >> word)
     {
         if (1 <= word.size() && word.size() <= 12)
         {
-            string morseResult = morseTranslation(word, morseCode);
-            setWordMorse.insert(morseResult);
-            // setWordMorse.insert(morseTranslation(word, morseCode));
+            WordMorseCombinations(word, mapWordMorse, morseCode);
+            // cout << endl;
         }
     }
 
     // вывод
-    cout << "Resul: " << setWordMorse.size() << " = ";
-    for (auto i : setWordMorse)
+    int uniqueWordCounter = 0;
+
+    for (auto i : mapWordMorse)
     {
-        cout << i << " ";
+        if (i.second == 1)
+        {
+            uniqueWordCounter++;
+            // cout << i.first << "   ";
+        }
     }
+
+    cout << "Result: " << uniqueWordCounter;
+}
+
+void WordMorseCombinations(string word, map<string, int> &mapWordMorse, map<char, string> &morseCode)
+{
+    sort(word.begin(), word.end());
+
+    // int c = 1;
+
+    do
+    {
+        string morseResult = morseTranslation(word, morseCode);
+        // cout << c++ << ") " << word << "  =  " << morseResult << endl;
+        mapWordMorse[morseResult]++;
+    } while (next_permutation(word.begin(), word.end()));
 }
 
 string morseTranslation(string word, map<char, string> &morseCode)
