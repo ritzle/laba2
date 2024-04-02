@@ -153,7 +153,7 @@ void task2()
         if (1 <= word.size() && word.size() <= 12)
         {
             WordMorseCombinations(word, mapWordMorse, morseCode);
-            // cout << endl;
+            cout << endl;
         }
     }
 
@@ -165,7 +165,7 @@ void task2()
         if (i.second == 1)
         {
             uniqueWordCounter++;
-            // cout << i.first << "   ";
+            cout << i.first << "   ";
         }
     }
 
@@ -176,12 +176,10 @@ void WordMorseCombinations(string word, map<string, int> &mapWordMorse, map<char
 {
     sort(word.begin(), word.end());
 
-    // int c = 1;
-
     do
     {
         string morseResult = morseTranslation(word, morseCode);
-        // cout << c++ << ") " << word << "  =  " << morseResult << endl;
+        cout << " " << word << "  =  " << morseResult << endl;
         mapWordMorse[morseResult]++;
     } while (next_permutation(word.begin(), word.end()));
 }
@@ -203,17 +201,22 @@ void task3()
 {
 
     cout << "Enter numbers: ";
-    string strNumbers;
-    getline(cin, strNumbers);
 
-    istringstream iss(strNumbers); // позволяет работать с строкой как с потоком ввода
+    int amountNumbers;
+    cin >> amountNumbers;
 
-    int number; // число из строки entStr
+    vector<int> vectorOddNumbers;
 
-    cout << "Resul: ";
-    while (iss >> number)
+    for (int i = 0; i < amountNumbers; i++)
     {
-        cout << counterOddNumbers(number) << " ";
+        int entNumbers;
+        cin >> entNumbers;
+        vectorOddNumbers.push_back(counterOddNumbers(entNumbers));
+    }
+
+    for (auto oddNumbers : vectorOddNumbers)
+    {
+        cout << oddNumbers << " ";
     }
 }
 
