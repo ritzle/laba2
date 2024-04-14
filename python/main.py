@@ -26,9 +26,11 @@ def morse_translation(word, morse_code):
 
 def word_morse_combinations(word, map_word_morse, morse_code):
     sorted_word = ''.join(sorted(word))
-    for perm in permutations(sorted_word):
+    for perm in set(permutations(sorted_word)):
         morse_result = morse_translation(perm, morse_code)
         print(f"{perm} = {morse_result}")
+        if morse_result not in map_word_morse:
+            map_word_morse[morse_result] = 0
         map_word_morse[morse_result] += 1
 
 def task_2():
