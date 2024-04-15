@@ -1,4 +1,6 @@
 #include <iostream>
+#include <stdio.h>
+
 #include <string>
 #include <vector>
 #include <sstream> //для разделение строки
@@ -214,21 +216,38 @@ void task3()
     cout << "Enter the number of numbers: ";
 
     int amountNumbers;
-    cin >> amountNumbers;
-    cout << "\nEnter numbers: ";
+    char isCheckChar;
 
-    vector<int> vectorOddNumbers;
-
-    for (int i = 0; i < amountNumbers; i++)
+    if (scanf("%d%c", &amountNumbers, &isCheckChar) == 2 && (isCheckChar == ' ' || isCheckChar == '\n') && amountNumbers > 0)
     {
-        int entNumbers;
-        cin >> entNumbers;
-        vectorOddNumbers.push_back(counterOddNumbers(entNumbers));
+        cout << "Enter numbers: ";
+        vector<int> vectorOddNumbers;
+
+        for (int i = 0; i < amountNumbers; i++)
+        {
+
+            int entNumbers;
+
+            if (scanf("%d%c", &entNumbers, &isCheckChar) == 2 && (isCheckChar == ' ' || isCheckChar == '\n') && entNumbers > 0)
+            {
+                vectorOddNumbers.push_back(counterOddNumbers(entNumbers));
+            }
+            else
+            {
+                cout << "Error";
+                return;
+            }
+        }
+
+        for (auto oddNumbers : vectorOddNumbers)
+        {
+            cout << oddNumbers << " ";
+        }
     }
-
-    for (auto oddNumbers : vectorOddNumbers)
+    else
     {
-        cout << oddNumbers << " ";
+        cout << "Error";
+        return;
     }
 }
 
