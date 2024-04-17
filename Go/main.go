@@ -6,16 +6,16 @@ import (
 )
 
 func main() {
-	var task string
+	var task rune
 	fmt.Print("Enter task (1, 2, 3): ")
-	fmt.Scanln(&task)
+	fmt.Scanf("%c", &task)
 
 	switch task {
-	case "1":
+	case '1':
 		task1()
-	case "2":
+	case '2':
 		task2()
-	case "3":
+	case '3':
 		task3()
 	default:
 		fmt.Println("Error")
@@ -25,7 +25,15 @@ func main() {
 func task1() {
 	var entStr string
 	fmt.Print("Enter string: ")
-	fmt.Scanln(&entStr)
+	if _, err := fmt.Scanln(&entStr); err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	if len(entStr) == 0 {
+		fmt.Println("Error: String cannot be empty")
+		return
+	}
 
 	var realStr []rune
 	realStr = append(realStr, []rune(entStr)[0])
@@ -95,15 +103,17 @@ func task2() {
 
 	var entStr string
 	fmt.Print("Enter string: ")
-	fmt.Scanln(&entStr)
-
-	if len(entStr) < 1 || len(entStr) > 100 {
-		fmt.Println("Error")
+	if _, err := fmt.Scanln(&entStr); err != nil {
+		fmt.Println("Error:", err)
 		return
 	}
 
-	words := strings.Split(entStr, " ")
+	if len(entStr) < 1 || len(entStr) > 100 {
+		fmt.Println("Error: Input length out of range")
+		return
+	}
 
+	words := strings.Fields(entStr)
 	mapWordMorse := make(map[string]int)
 
 	for _, word := range words {
@@ -119,7 +129,7 @@ func task2() {
 			uniqueWordCounter++
 		}
 	}
-	fmt.Println("Result:", uniqueWordCounter)
+	fmt.Printf("Result: %d\n", uniqueWordCounter)
 }
 
 func wordMorseCombinations(word string, mapWordMorse map[string]int, morseCode map[rune]string) {
@@ -127,24 +137,24 @@ func wordMorseCombinations(word string, mapWordMorse map[string]int, morseCode m
 
 	for _, permutation := range uniquePermutations {
 		morseResult := morseTranslation(permutation, morseCode)
-		fmt.Printf(" %s  =  %s\n", permutation, morseResult)
+		fmt.Printf(" %s = %s\n", permutation, morseResult)
 
 		mapWordMorse[morseResult]++
 	}
 }
 
 func morseTranslation(word string, morseCode map[rune]string) string {
-	var wordMorse string
+	var wordMorse strings.Builder
 	for _, ch := range word {
-		wordMorse += morseCode[ch]
+		wordMorse.WriteString(morseCode[ch])
 	}
-	return wordMorse
+	return wordMorse.String()
 }
 
 func getUniquePermutations(word string) []string {
 	var permutations []string
 	getUniquePermutationsHelper([]rune(word), 0, len(word)-1, &permutations)
-	return removeDuplicates(permutations)
+	return unique(permutations)
 }
 
 func getUniquePermutationsHelper(list []rune, k, m int, result *[]string) {
@@ -152,58 +162,66 @@ func getUniquePermutationsHelper(list []rune, k, m int, result *[]string) {
 		*result = append(*result, string(list))
 	} else {
 		for i := k; i <= m; i++ {
-			swap(list, k, i)
+			swap(&list[k], &list[i])
 			getUniquePermutationsHelper(list, k+1, m, result)
-			swap(list, k, i)
+			swap(&list[k], &list[i])
 		}
 	}
 }
 
-func swap(list []rune, a, b int) {
-	if list[a] == list[b] {
+func swap(a, b *rune) {
+	if *a == *b {
 		return
 	}
-	list[a], list[b] = list[b], list[a]
+	*a, *b = *b, *a
 }
 
-func removeDuplicates(elements []string) []string {
-	encountered := map[string]bool{}
-	result := []string{}
-
-	for v := range elements {
-		if encountered[elements[v]] == false {
-			encountered[elements[v]] = true
-			result = append(result, elements[v])
+func unique(slice []string) []string {
+	keys := make(map[string]bool)
+	list := []string{}
+	for _, entry := range slice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
 		}
 	}
-	return result
+	return list
 }
 
 func task3() {
 	var amountNumbers int
 	fmt.Print("Enter the number of numbers: ")
-	fmt.Scanln(&amountNumbers)
+	if _, err := fmt.Scanln(&amountNumbers); err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
 
-	var vectorOddNumbers []int
+	vectorOddNumbers := make([]int, 0, amountNumbers)
 
 	for i := 0; i < amountNumbers; i++ {
 		var entNumbers int
 		fmt.Print("Enter number: ")
-		fmt.Scanln(&entNumbers)
+		if _, err := fmt.Scanln(&entNumbers); err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
 		vectorOddNumbers = append(vectorOddNumbers, counterOddNumbers(entNumbers))
 	}
 
-	fmt.Println(vectorOddNumbers)
+	for _, oddNumbers := range vectorOddNumbers {
+		fmt.Printf("%d ", oddNumbers)
+	}
 }
 
 func counterOddNumbers(number int) int {
 	counterOddNumbers := 0
+	num := number
 
-	for number != 0 {
-		if (number % 10) % 2 != 0 {
+	for num != 0 {
+		if (num % 10) % 2 != 0 {
 			counterOddNumbers++
 		}
-		number /= 10
+		num /= 10
 	}
 
 	return counterOddNumbers
