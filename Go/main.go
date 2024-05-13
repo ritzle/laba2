@@ -1,14 +1,17 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"unicode"
 	"strings"
 )
 
 func main() {
-	var task rune
+	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter task (1, 2, 3): ")
-	fmt.Scanf("%c", &task)
+	task, _ := reader.ReadByte()
 
 	switch task {
 	case '1':
@@ -23,21 +26,11 @@ func main() {
 }
 
 func task1() {
-	var entStr string
 	fmt.Print("Enter string: ")
-	if _, err := fmt.Scanln(&entStr); err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
+	var entStr string
+	fmt.Scanln(&entStr)
 
-	if len(entStr) == 0 {
-		fmt.Println("Error: String cannot be empty")
-		return
-	}
-
-	var realStr []rune
-	realStr = append(realStr, []rune(entStr)[0])
-
+	realStr := []rune{rune(entStr[0])}
 	counterSymbolStr := 1
 	counterAddSymbol := 0
 
@@ -45,8 +38,7 @@ func task1() {
 		if entStr[i] == entStr[i-1] {
 			if counterSymbolStr == 2 {
 				counterSymbolStr = 1
-				realStr = append(realStr, rune(entStr[i]+1))
-				realStr = append(realStr, rune(entStr[i]))
+				realStr = append(realStr, rune(entStr[i])+1, rune(entStr[i]))
 				counterAddSymbol++
 			} else {
 				counterSymbolStr++
@@ -58,170 +50,126 @@ func task1() {
 		}
 	}
 
-	fmt.Printf("Result: %d = %s\n", counterAddSymbol, string(realStr))
+	fmt.Print("Result: ", counterAddSymbol, " = ")
+	for _, ch := range realStr {
+		fmt.Print(string(ch))
+	}
+	fmt.Println()
 }
 
 func task2() {
-	morseCode := map[rune]string{
-		'A': "*-",
-		'B': "-***",
-		'W': "*--",
-		'G': "--*",
-		'D': "-**",
-		'E': "*",
-		'V': "***-",
-		'Z': "--**",
-		'I': "**",
-		'J': "*---",
-		'K': "-*-",
-		'L': "*-**",
-		'M': "--",
-		'N': "-*",
-		'O': "---",
-		'P': "*--*",
-		'R': "*-*",
-		'S': "***",
-		'T': "-",
-		'U': "**-",
-		'F': "**-*",
-		'H': "****",
-		'C': "-*-*",
-		'Q': "--*-",
-		'Y': "-*--",
-		'X': "-**-",
-		'1': "*----",
-		'2': "**---",
-		'3': "***--",
-		'4': "****-",
-		'5': "*****",
-		'6': "-****",
-		'7': "--***",
-		'8': "---**",
-		'9': "----*",
-		'0': "-----",
-	}
+    morseCode := map[rune]string{
+        'A': "*-", 'B': "-***", 'C': "-*-*", 'D': "-**", 'E': "*",
+        'F': "**-*", 'G': "--*", 'H': "****", 'I': "**", 'J': "*---",
+        'K': "-*-", 'L': "*-**", 'M': "--", 'N': "-*", 'O': "---",
+        'P': "*--*", 'Q': "--*-", 'R': "*-*", 'S': "***", 'T': "-",
+        'U': "**-", 'V': "***-", 'W': "*--", 'X': "-**-", 'Y': "-*--",
+        'Z': "--**", '0': "-----", '1': "*----", '2': "**---", '3': "***--",
+        '4': "****-", '5': "*****", '6': "-****", '7': "--***", '8': "---**",
+        '9': "----*",
+    }
 
-	var entStr string
-	fmt.Print("Enter string: ")
-	if _, err := fmt.Scanln(&entStr); err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
+    fmt.Print("Enter string: ")
+    var entStr string
+    fmt.Scanln(&entStr)
 
-	if len(entStr) < 1 || len(entStr) > 100 {
-		fmt.Println("Error: Input length out of range")
-		return
-	}
+    if len(entStr) < 1 || len(entStr) > 100 {
+        fmt.Println("Error")
+        return
+    }
 
-	words := strings.Fields(entStr)
-	mapWordMorse := make(map[string]int)
+    words := strings.Split(entStr, " ")
+    mapWordMorse := make(map[string]int)
 
-	for _, word := range words {
-		if len(word) >= 1 && len(word) <= 12 {
-			wordMorseCombinations(word, mapWordMorse, morseCode)
-			fmt.Println()
-		}
-	}
+    for _, word := range words {
+        if len(word) >= 1 && len(word) <= 12 {
+            wordMorseCombinations(word, mapWordMorse, morseCode)
+            fmt.Println()
+        }
+    }
 
-	uniqueWordCounter := 0
-	for _, v := range mapWordMorse {
-		if v == 1 {
-			uniqueWordCounter++
-		}
-	}
-	fmt.Printf("Result: %d\n", uniqueWordCounter)
+    uniqueWordCounter := 0
+    for _, v := range mapWordMorse {
+        if v == 1 {
+            uniqueWordCounter++
+        }
+    }
+    fmt.Println("Result:", uniqueWordCounter)
 }
 
 func wordMorseCombinations(word string, mapWordMorse map[string]int, morseCode map[rune]string) {
-	uniquePermutations := getUniquePermutations(word)
+    uniquePermutations := getUniquePermutations(word)
 
-	for _, permutation := range uniquePermutations {
-		morseResult := morseTranslation(permutation, morseCode)
-		fmt.Printf(" %s = %s\n", permutation, morseResult)
-
-		mapWordMorse[morseResult]++
-	}
+    for _, permutation := range uniquePermutations {
+        morseResult := getMorseRepresentation(permutation, morseCode)
+        fmt.Printf(" %s  =  %s\n", permutation, morseResult)
+        mapWordMorse[morseResult]++
+    }
 }
 
-func morseTranslation(word string, morseCode map[rune]string) string {
-	var wordMorse strings.Builder
-	for _, ch := range word {
-		wordMorse.WriteString(morseCode[ch])
-	}
-	return wordMorse.String()
+func getMorseRepresentation(word string, morseCode map[rune]string) string {
+    var sb strings.Builder
+    for _, ch := range word {
+        sb.WriteString(morseCode[unicode.ToUpper(ch)])
+    }
+    return sb.String()
 }
 
 func getUniquePermutations(word string) []string {
-	var permutations []string
-	getUniquePermutationsHelper([]rune(word), 0, len(word)-1, &permutations)
-	return unique(permutations)
+    var permutations []string
+    getUniquePermutationsHelper([]rune(word), 0, len(word)-1, &permutations)
+    uniquePermutations := make(map[string]bool)
+    for _, perm := range permutations {
+        uniquePermutations[perm] = true
+    }
+    result := make([]string, 0, len(uniquePermutations))
+    for perm := range uniquePermutations {
+        result = append(result, perm)
+    }
+    return result
 }
 
 func getUniquePermutationsHelper(list []rune, k, m int, result *[]string) {
-	if k == m {
-		*result = append(*result, string(list))
-	} else {
-		for i := k; i <= m; i++ {
-			swap(&list[k], &list[i])
-			getUniquePermutationsHelper(list, k+1, m, result)
-			swap(&list[k], &list[i])
-		}
-	}
+    if k == m {
+        *result = append(*result, string(list))
+    } else {
+        for i := k; i <= m; i++ {
+            swap(list, k, i)
+            getUniquePermutationsHelper(list, k+1, m, result)
+            swap(list, k, i)
+        }
+    }
 }
 
-func swap(a, b *rune) {
-	if *a == *b {
-		return
-	}
-	*a, *b = *b, *a
+func swap(list []rune, a, b int) {
+    if list[a] == list[b] {
+        return
+    }
+    list[a], list[b] = list[b], list[a]
 }
 
-func unique(slice []string) []string {
-	keys := make(map[string]bool)
-	list := []string{}
-	for _, entry := range slice {
-		if _, value := keys[entry]; !value {
-			keys[entry] = true
-			list = append(list, entry)
-		}
-	}
-	return list
-}
 
 func task3() {
 	var amountNumbers int
 	fmt.Print("Enter the number of numbers: ")
-	if _, err := fmt.Scanln(&amountNumbers); err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-
-	vectorOddNumbers := make([]int, 0, amountNumbers)
+	fmt.Scanln(&amountNumbers)
 
 	for i := 0; i < amountNumbers; i++ {
 		var entNumbers int
 		fmt.Print("Enter number: ")
-		if _, err := fmt.Scanln(&entNumbers); err != nil {
-			fmt.Println("Error:", err)
-			return
-		}
-		vectorOddNumbers = append(vectorOddNumbers, counterOddNumbers(entNumbers))
-	}
-
-	for _, oddNumbers := range vectorOddNumbers {
-		fmt.Printf("%d ", oddNumbers)
+		fmt.Scanln(&entNumbers)
+		fmt.Println("Number of odd digits:", counterOddNumbers(entNumbers))
 	}
 }
 
 func counterOddNumbers(number int) int {
 	counterOddNumbers := 0
-	num := number
 
-	for num != 0 {
-		if (num % 10) % 2 != 0 {
+	for number != 0 {
+		if (number % 10) % 2 != 0 {
 			counterOddNumbers++
 		}
-		num /= 10
+		number /= 10
 	}
 
 	return counterOddNumbers

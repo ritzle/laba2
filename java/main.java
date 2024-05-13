@@ -172,17 +172,18 @@ public class Main {
         System.out.print("Enter the number of numbers: ");
         int amountNumbers = Integer.parseInt(scanner.nextLine());
 
-        List<Integer> vectorOddNumbers = new ArrayList<>();
+        //List<Integer> vectorOddNumbers = new ArrayList<>();
 
         for (int i = 0; i < amountNumbers; i++) {
             System.out.print("Enter number: ");
             int entNumbers = Integer.parseInt(scanner.nextLine());
-            vectorOddNumbers.add(counterOddNumbers(entNumbers));
+            System.out.print("Number of odd digits: " + counterOddNumbers(entNumbers) + "\n");
+          //  vectorOddNumbers.add(counterOddNumbers(entNumbers));
         }
 
-        for (int oddNumbers : vectorOddNumbers) {
-            System.out.print(oddNumbers + " ");
-        }
+        // for (int oddNumbers : vectorOddNumbers) {
+        //     System.out.print(oddNumbers + " ");
+        // }
     }
 
     static int counterOddNumbers(int number) {

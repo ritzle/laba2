@@ -11,12 +11,9 @@ def counter_odd_numbers(number):
 def task_3():
     amount_numbers = int(input("Enter the number of numbers: "))
     print("\nEnter numbers: ")
-    odd_numbers = []
     for _ in range(amount_numbers):
         ent_number = int(input())
-        odd_numbers.append(counter_odd_numbers(ent_number))
-    for odd_number in odd_numbers:
-        print(odd_number, end=" ")
+        print("Number of odd digits:", counter_odd_numbers(ent_number), end="\n")
 
 def morse_translation(word, morse_code):
     word_morse = ""

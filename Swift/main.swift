@@ -126,18 +126,16 @@ func getUniquePermutationsHelper(chars: inout [Character], startIndex: Int, endI
 func task3() {
     print("Enter the number of numbers: ", terminator: "")
     if let amountNumbersStr = readLine(), let amountNumbers = Int(amountNumbersStr) {
-        var vectorOddNumbers = [Int]()
         
         for _ in 0..<amountNumbers {
             print("Enter number: ", terminator: "")
             if let entNumbersStr = readLine(), let entNumbers = Int(entNumbersStr) {
-                vectorOddNumbers.append(counterOddNumbers(number: entNumbers))
+
+                print("Number of odd digits: \(counterOddNumbers(number: entNumbers))\n ", terminator: "")
             }
         }
         
-        for oddNumbers in vectorOddNumbers {
-            print("\(oddNumbers) ", terminator: "")
-        }
+
     } else {
         print("Error")
     }

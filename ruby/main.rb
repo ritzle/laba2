@@ -134,15 +134,13 @@ def task3
   print "Enter the number of numbers: "
   amount_numbers = gets.chomp.to_i
 
-  vector_odd_numbers = []
 
   amount_numbers.times do
     print "Enter number: "
     ent_numbers = gets.chomp.to_i
-    vector_odd_numbers << counter_odd_numbers(ent_numbers)
+    print "Number of odd digits: #{counter_odd_numbers(ent_numbers)} \n"
   end
 
-  print vector_odd_numbers.join(' ')
 end
 
 def counter_odd_numbers(number)

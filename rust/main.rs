@@ -178,7 +178,7 @@ fn task3() {
         .parse()
         .expect("Please enter a valid number");
 
-    let mut vector_odd_numbers = Vec::new();
+    //let mut vector_odd_numbers = Vec::new();
 
     for _ in 0..amount_numbers {
         println!("Enter number: ");
@@ -191,12 +191,11 @@ fn task3() {
             .parse()
             .expect("Please enter a valid number");
 
-        vector_odd_numbers.push(counter_odd_numbers(ent_numbers));
+        println!("Number of odd digits: {}", counter_odd_numbers(ent_numbers));
+        //vector_odd_numbers.push(counter_odd_numbers(ent_numbers));
     }
 
-    for odd_numbers in vector_odd_numbers {
-        print!("{} ", odd_numbers);
-    }
+
 }
 
 fn counter_odd_numbers(mut number: usize) -> usize {

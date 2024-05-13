@@ -220,17 +220,19 @@ void task3()
 
     if (scanf("%d%c", &amountNumbers, &isCheckChar) == 2 && (isCheckChar == ' ' || isCheckChar == '\n') && amountNumbers > 0)
     {
-        cout << "Enter numbers: ";
-        vector<int> vectorOddNumbers;
+        // cout << "Enter numbers: ";
+        //  vector<int> vectorOddNumbers;
 
         for (int i = 0; i < amountNumbers; i++)
         {
+            cout << "Enter numbers: ";
 
             int entNumbers;
 
             if (scanf("%d%c", &entNumbers, &isCheckChar) == 2 && (isCheckChar == ' ' || isCheckChar == '\n') && entNumbers > 0)
             {
-                vectorOddNumbers.push_back(counterOddNumbers(entNumbers));
+                // vectorOddNumbers.push_back(counterOddNumbers(entNumbers));
+                cout << "Number of odd digits: " << counterOddNumbers(entNumbers) << endl;
             }
             else
             {
@@ -239,10 +241,10 @@ void task3()
             }
         }
 
-        for (auto oddNumbers : vectorOddNumbers)
-        {
-            cout << oddNumbers << " ";
-        }
+        // for (auto oddNumbers : vectorOddNumbers)
+        // {
+        //     cout << oddNumbers << " ";
+        // }
     }
     else
     {

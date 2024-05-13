@@ -1,0 +1,14 @@
+{
+	"cSpell.words": ["aaaabbsssr"],
+	"files.associations": {
+		"vector": "cpp",
+		"iosfwd": "cpp",
+		"xstring": "cpp",
+		"iostream": "cpp",
+		"map": "cpp",
+		"initializer_list": "cpp",
+		"type_traits": "cpp",
+		"xtree": "cpp",
+		"xutility": "cpp"
+	}
+}

@@ -218,18 +218,19 @@ static void WordMorseCombinations(string word, Dictionary<string, int> mapWordMo
         Console.Write("Enter the number of numbers: ");
         int amountNumbers = int.Parse(Console.ReadLine());
 
-        List<int> vectorOddNumbers = new List<int>();
+        //List<int> vectorOddNumbers = new List<int>();
 
         for (int i = 0; i < amountNumbers; i++)
         {
             int entNumbers = int.Parse(Console.ReadLine());
-            vectorOddNumbers.Add(CounterOddNumbers(entNumbers));
+            Console.Write("Number of odd digits: " + CounterOddNumbers(entNumbers) + "\n");
+            //vectorOddNumbers.Add(CounterOddNumbers(entNumbers));
         }
 
-        foreach (int oddNumbers in vectorOddNumbers)
-        {
-            Console.Write(oddNumbers + " ");
-        }
+        // foreach (int oddNumbers in vectorOddNumbers)
+        // {
+        //     Console.Write(oddNumbers + " ");
+        // }
     }
 
     static int CounterOddNumbers(int number)

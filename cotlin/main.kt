@@ -159,15 +159,16 @@ fun task3() {
     print("Enter the number of numbers: ")
     val amountNumbers = scanner.nextLine().toInt()
 
-    val vectorOddNumbers = mutableListOf<Int>()
+    //val vectorOddNumbers = mutableListOf<Int>()
 
     repeat(amountNumbers) {
         print("Enter number: ")
         val entNumbers = scanner.nextLine().toInt()
-        vectorOddNumbers.add(counterOddNumbers(entNumbers))
+        val result = counterOddNumbers(entNumbers)
+        print("Number of odd digits:  $result")
     }
 
-    vectorOddNumbers.forEach { print("$it ") }
+    //vectorOddNumbers.forEach { print("$it ") }
 }
 
 fun counterOddNumbers(number: Int): Int {
